@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const test = require('./routes/test')
-const port = 3000
+const port = 4000
 
 app.get('/', (req, res) => {
   res.send('Hello There, API is up and running!')
@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
 app.get('/:id', (req, res) => { 
     res.send(`<h1>${req.params.id}</h1>`); 
 }); 
-app.use('/user', test);
+app.use('/search', test);
 
 
 app.listen(port, () => {

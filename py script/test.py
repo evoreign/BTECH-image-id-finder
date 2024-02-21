@@ -33,7 +33,7 @@ while True:
                 # Filter the DataFrame to only include rows where the 'Image' column is not null
                 df = df[df['Image'].notna()]
                 # Convert the 'Image' column to string
-                df['Image'] = df['Image'].astype(str)
+                df['Image'] = df['Image'].astype(int).astype(str)
                 # Convert all column names to string
                 df.columns = df.columns.astype(str)
                 # Replace NaN values with "-"
