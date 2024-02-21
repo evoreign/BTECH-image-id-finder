@@ -6,7 +6,10 @@ const port = 3000
 app.get('/', (req, res) => {
   res.send('Hello There, API is up and running!')
 })
-app.use('/yo', test);
+app.get('/:id', (req, res) => { 
+    res.send(`<h1>${req.params.id}</h1>`); 
+}); 
+app.use('/user', test);
 
 
 app.listen(port, () => {
