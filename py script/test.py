@@ -10,7 +10,7 @@ db = client["image_db_test"]
 
 # Connect to your collection
 collection = db["image_collection_test"]
-#test  changes git
+#test  changes gits
 while True:
     root_path = input("Enter the root path: ")
     list_of_models = os.listdir(root_path)
