@@ -6,10 +6,10 @@ from pymongo import MongoClient
 client = MongoClient("mongodb+srv://kopi:kopi@cluster0.apqobqt.mongodb.net/?retryWrites=true&w=majority")
 
 # Connect to your database
-db = client["image_db_test_1"]
+db = client["image_db_test_big"]
 
 # Connect to your collection
-collection = db["image_collection_test_1"]
+collection = db["image_collection_test_big"]
 #test  changes gits
 while True:
     root_path = input("Enter the root path: ")

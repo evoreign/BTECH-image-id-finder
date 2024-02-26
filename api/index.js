@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const searchRoutes = require('./routes/search');
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
