@@ -44,9 +44,9 @@ This project is used by the following companies:
 
 ## Roadmap
 
-- Complete the BE core like searching the image ID
-
 - Multiple file upload support
+
+- Frontend stuff (recode to ts) recode cause.... ts is better i guess
 
 
 ## Authors
