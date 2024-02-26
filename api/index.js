@@ -1,17 +1,25 @@
-const express = require('express')
-const app = express()
-const test = require('./routes/test')
-const port = 4000
+require('dotenv').config();
+const express = require('express');
+const mongoose = require('mongoose');
+const searchRoutes = require('./routes/search');
 
-app.get('/', (req, res) => {
-  res.send('Hello There, API is up and running!')
-})
-app.get('/:id', (req, res) => { 
-    res.send(`<h1>${req.params.id}</h1>`); 
-}); 
-app.use('/search', test);
+const app = express();
+const port = process.env.PORT || 3000;
 
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => {
+    app.get('/', (req, res) => {
+      res.send('Hello There, API is up and running!')
+    });
 
-app.listen(port, () => {
-  console.log(`BTECH image id finder app listening on port ${port}`)
-})
+    app.get('/:id', (req, res) => { 
+        res.send(`<h1>${req.params.id}</h1>`); 
+    }); 
+
+    app.use('/search', searchRoutes);
+
+    app.listen(port, () => {
+      console.log(`\nBTECH image id finder app listening on port ${port} and successfully connected to MongoDB!${process.env.MONGODB_URI}\n`)
+    });
+  })
+  .catch(err => console.error(err));
