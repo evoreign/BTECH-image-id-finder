@@ -1,3 +1,4 @@
+"use client"
 import { SignUp } from "@clerk/nextjs";
 import Header from "@/components/navbar-header";
 export default function Page() {
