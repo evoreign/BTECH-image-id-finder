@@ -1,4 +1,4 @@
-
+"use client"
 import Header from "@/components/navbar-header";
 type ParamsType = {
     ImageId: number;

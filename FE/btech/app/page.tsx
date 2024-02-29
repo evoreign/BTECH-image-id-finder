@@ -1,23 +1,8 @@
 "use client"
 import Header from "@/components/navbar-header";
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { toast } from "@/components/ui/use-toast"
-
-
 
 export default function Home() {
   return (
@@ -28,7 +13,7 @@ export default function Home() {
           BTECH image ID finder
         </h1>
         <Separator className="my-4" />
-        <div className="flex w-full max-w-sm items-center space-x-2 justify-center ">
+        <div className="flex w-full  items-center space-x-2 justify-center ">
           <Input type="search" placeholder="Enter your Image ID here" />
           <Button type="submit">Search</Button>
         </div>
