@@ -38,6 +38,7 @@ router.get('/:ImageId', async (req, res) => {
     console.log(`Found ${models.length} models`);
     const results = models.map(model => ({
       model: model.model,
+      ImageUrl: model.ImageUrl,
       data: model.data[imageId]
     }));
     console.log(`Results: ${JSON.stringify(results)}`);
