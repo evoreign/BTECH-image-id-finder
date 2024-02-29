@@ -2,31 +2,33 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from "@/components/navbar-header";
+import { HoverEffect } from "@/components/ui/card-hover-effect";
 
 type ParamsType = {
     ImageId: number;
 };
 
 export default function Doc( {params}: {params: ParamsType}) {
-    const [data, setData] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         let isMounted = true; // track whether component is mounted
 
         const fetchData = async () => {
-            setIsLoading(true);
             try {
                 const response = await axios.get(`http://127.0.0.1:4000/search/${params.ImageId}`);
                 if (isMounted) {
-                    setData(response.data);
-                    setIsLoading(false);
+                    const mappedData = response.data.map(item => ({
+                        title: item.model, // replace with actual property name from your API data
+                        description: `Tab: ${item.data.Tab}, Section: ${item.data.Section}`, // replace 'tab' and 'section' with actual property names from your API data
+                        link: `/${item.model}`, // replace 'model' with actual property name from your API data
+                        image: item.ImageUrl, // replace with actual property name from your API data
+                    }));
+                    setData(mappedData);
                 }
             } catch (error) {
                 if (isMounted) {
-                    setError(error);
-                    setIsLoading(false);
+                    console.error(error);
                 }
             }
         };
@@ -38,23 +40,17 @@ export default function Doc( {params}: {params: ParamsType}) {
         };
     }, [params.ImageId]);
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
-
-    if (error) {
-        return <div>Error: {error.message}</div>;
-    }
-
     return (
         <main className="flex flex-col items-center justify-center min-h-screen">
             <Header/>
             <div>
-                <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
+                <h1 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
                     Search results for Image ID {params.ImageId}
                 </h1>
                 {/* Display your data here. This is just an example. */}
-                {data && <div>{JSON.stringify(data)}</div>}
+                <div className="max-w-5xl mx-auto px-8">
+                    <HoverEffect items={data} />
+                </div>
             </div>
         </main>
     );

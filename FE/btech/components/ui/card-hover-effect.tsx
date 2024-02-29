@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
+import Image from 'next/image';
 
 export const HoverEffect = ({
   items,
@@ -11,7 +12,8 @@ export const HoverEffect = ({
     title: string;
     description: string;
     link: string;
-    image?: string; // Add an image field to the items
+    image?: string;
+
   }[];
   className?: string;
 }) => {
@@ -63,10 +65,12 @@ export const Card = ({
   className,
   children,
   image,
+
 }: {
   className?: string;
   children: React.ReactNode;
   image?: string;
+
 }) => {
   return (
     <div
@@ -75,27 +79,33 @@ export const Card = ({
         className
       )}
     >
-      <div className="absolute inset-0 transition-all duration-200 ease-in-out opacity-0 group-hover:opacity-100" 
-        style={{ 
-          backgroundImage: `url(${image})`, // Set the image as the background of the card
-          backgroundSize: 'cover', // Make sure the image covers the entire card
-          backgroundPosition: 'center', // Center the image
-          backgroundRepeat: 'no-repeat' // Do not repeat the image
-        }}
-      />
-      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-70 transition-all duration-200 ease-in-out"></div> {/* Adjust the opacity of the overlay */}
+      <div className="absolute inset-0 transition-all duration-200 ease-in-out opacity-0 group-hover:opacity-100">
+        {image && (
+          <Image
+            src={image}
+            alt=""
+            layout="fill"
+            objectFit="cover"
+            quality={100}
+          />
+        )}
+      </div>
+      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-65 transition-all duration-200 ease-in-out"></div> {/* Adjust the opacity of the overlay */}
       <div className="relative z-50">
         <div className="p-4">{children}</div>
       </div>
     </div>
   );
 };
+
 export const CardTitle = ({
   className,
   children,
+
 }: {
   className?: string;
   children: React.ReactNode;
+
 }) => {
   return (
     <h4 className={cn("text-zinc-100 font-bold tracking-wide mt-4", className)}>
@@ -103,21 +113,29 @@ export const CardTitle = ({
     </h4>
   );
 };
+
 export const CardDescription = ({
   className,
   children,
 }: {
   className?: string;
-  children: React.ReactNode;
+  children: string; // Assuming description is a string
 }) => {
+  // Split the description by comma
+  const listItems = children.split(',');
+
   return (
-    <p
+    <ul
       className={cn(
-        "mt-8 text-zinc-400 tracking-wide leading-relaxed text-sm",
+        "mt-10 text-zinc-400 tracking-wide leading-relaxed text-sm list-disc flex flex-col items-center justify-center",
         className
       )}
     >
-      {children}
-    </p>
+      {listItems.map((item, index) => (
+        <li key={index}>
+          <div className="text-center">{item}</div>
+        </li>
+      ))}
+    </ul>
   );
 };
