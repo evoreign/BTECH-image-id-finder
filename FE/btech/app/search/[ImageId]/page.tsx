@@ -7,12 +7,14 @@ import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast"
 import { ToastClose } from '@/components/ui/toast';
 import Link from 'next/link'
+
 type ParamsType = {
     ImageId: number;
 };
 
 export default function Doc( {params}: {params: ParamsType}) {
     const [data, setData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         let isMounted = true; // track whether component is mounted
@@ -28,6 +30,13 @@ export default function Doc( {params}: {params: ParamsType}) {
                         image: item.ImageUrl, // replace with actual property name from your API data
                     }));
                     setData(mappedData);
+                    setIsLoading(false);
+                    if (mappedData.length === 0) {
+                        toast({
+                            title: "No results found",
+                            description: `No results found for Image ID ${params.ImageId}.`,
+                        });
+                    }
                 }
             } catch (error) {
                 if (isMounted) {
@@ -41,6 +50,7 @@ export default function Doc( {params}: {params: ParamsType}) {
                     } else {
                         console.error(error);
                     }
+                    setIsLoading(false);
                 }
             }
         };
@@ -61,7 +71,14 @@ export default function Doc( {params}: {params: ParamsType}) {
                 </h1>
                 {/* Display your data here. This is just an example. */}
                 <div className="px-4 sm:px-8 md:px-16 lg:px-32">
-                    <HoverEffect items={data} />
+                {isLoading ? (
+                    <p>Loading...</p>
+                ) : (
+                    <>
+                        <p>{data.length} model(s) found for Image ID {params.ImageId}.</p>
+                        <HoverEffect items={data} />
+                    </>
+                )}
                 </div>
             </div>
         </main>
