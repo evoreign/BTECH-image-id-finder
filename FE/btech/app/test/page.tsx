@@ -1,27 +1,16 @@
 "use client"
-import { useEffect, useState } from 'react';
-import { HoverEffect } from "@/components/ui/card-hover-effect";
+import Header from "@/components/navbar-header";
 
-export default function CardHoverEffectDemo() {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:4000/search/6')
-      .then(response => response.json())
-      .then(data => {
-        const mappedData = data.map(item => ({
-          title: item.model, // replace with actual property name from your API data
-          description: `Tab: ${item.data.Tab}, Section: ${item.data.Section}`, // replace 'tab' and 'section' with actual property names from your API data
-          link: `/search/6/${item.model}`, // replace 'model' with actual property name from your API data
-          image: item.ImageUrl, // replace with actual property name from your API data
-        }));
-        setData(mappedData);
-      });
-  }, []);
-
+export default function Test() {
   return (
-    <div className="max-w-5xl mx-auto px-8">
-      <HoverEffect items={data} />
-    </div>
+    <main className="flex flex-col items-center justify-center min-h-screen">
+      <Header/>
+      <div >
+        <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl ">
+          Test things here
+        </h1>
+        
+      </div>
+    </main>
   );
 }

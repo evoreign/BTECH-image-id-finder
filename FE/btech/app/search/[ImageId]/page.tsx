@@ -3,7 +3,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from "@/components/navbar-header";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
-
+import { toast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast"
+import { ToastClose } from '@/components/ui/toast';
+import Link from 'next/link'
 type ParamsType = {
     ImageId: number;
 };
@@ -28,7 +31,16 @@ export default function Doc( {params}: {params: ParamsType}) {
                 }
             } catch (error) {
                 if (isMounted) {
-                    console.error(error);
+                    if (error.response && error.response.status === 400) {
+                        toast({
+                            variant: "destructive",
+                            title: "Uh oh! Bad request.",
+                            description: "Try entering a valid Image ID, it only accepts positive numbers.",
+                            action: <Link href='/'><ToastAction altText="Try again">Try again</ToastAction></Link>,
+                          })
+                    } else {
+                        console.error(error);
+                    }
                 }
             }
         };
@@ -41,14 +53,14 @@ export default function Doc( {params}: {params: ParamsType}) {
     }, [params.ImageId]);
 
     return (
-        <main className="flex flex-col items-center justify-center min-h-screen">
+        <main className="flex flex-col items-center justify-center min-h-screen px-4 sm:px-8 md:px-16 lg:px-32">
             <Header/>
-            <div>
-                <h1 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
+            <div className="w-full max-w-5xl mx-auto mt-20">
+                <h1 className="scroll-m-20 border-b pb-2 text-2xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight first:mt-0">
                     Search results for Image ID {params.ImageId}
                 </h1>
                 {/* Display your data here. This is just an example. */}
-                <div className="max-w-5xl mx-auto px-8">
+                <div className="px-4 sm:px-8 md:px-16 lg:px-32">
                     <HoverEffect items={data} />
                 </div>
             </div>

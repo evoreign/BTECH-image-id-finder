@@ -4,20 +4,32 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
 export default function Home() {
+  const [imageId, setImageId] = useState('');
+  const router = useRouter();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    router.push(`/search/${imageId}`);
+  };
+
+  const handleInputChange = (event) => {
+    setImageId(event.target.value);
+  };
+
   return (
     <main className="flex flex-col items-center justify-center min-h-screen">
       <Header/>
-      <div >
+      <div>
         <TextGenerateEffect words='BTECH image ID finder' className=" "/>
-        {/* <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl ">
-          BTECH image ID finder
-        </h1> */}
         <Separator className="my-4" />
-        <div className="flex w-full  items-center space-x-2 justify-center ">
-          <Input type="search" placeholder="Enter your Image ID here" />
+        <form onSubmit={handleSubmit} className="flex w-full items-center space-x-2 justify-center">
+          <Input type="search" placeholder="Enter your Image ID here" value={imageId} onChange={handleInputChange} />
           <Button type="submit">Search</Button>
-        </div>
+        </form>
       </div>
     </main>
   );
