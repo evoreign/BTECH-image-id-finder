@@ -28,7 +28,7 @@ export default function Doc( {params}: {params: ParamsType}) {
                         const mappedData = response.data.map(item => ({
                             title: item.model, // replace with actual property name from your API data
                             description: `Tab: ${item.data.Tab}, Section: ${item.data.Section}`, // replace 'tab' and 'section' with actual property names from your API data
-                            link: `/${item.model}`, // replace 'model' with actual property name from your API data
+                            link: `/search/${params.ImageId}/${item.model}`, // replace 'model' with actual property name from your API data
                             image: item.ImageUrl, // replace with actual property name from your API data
                         }));
                         setData(mappedData);
