@@ -25,7 +25,7 @@ export default function Doc( {params}: {params: ParamsType}) {
                 const response = await axios.get(`http://127.0.0.1:4000/search/${params.ImageId}`);
                 // setTimeout(() => { // artificial delay
                     if (isMounted) {
-                        const mappedData = response.data.map(item => ({
+                        const mappedData = response.data.map((item:any) => ({
                             title: item.model, // replace with actual property name from your API data
                             description: `Tab: ${item.data.Tab}, Section: ${item.data.Section}`, // replace 'tab' and 'section' with actual property names from your API data
                             link: `/search/${params.ImageId}/${item.model}`, // replace 'model' with actual property name from your API data

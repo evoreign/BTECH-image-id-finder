@@ -12,16 +12,16 @@ export default function Home() {
   const [error, setError] = useState(null);
   const router = useRouter();
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     try {
       await router.push(`/search/${imageId}`);
-    } catch (err) {
+    } catch (err:any) {
       setError(err.message);
     }
   };
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event:any) => {
     setImageId(event.target.value);
   };
 
