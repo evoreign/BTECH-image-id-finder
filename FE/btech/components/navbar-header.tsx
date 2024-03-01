@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Separator } from "@/components/ui/separator"
 import { UserButton } from "@clerk/nextjs";
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons"
@@ -11,6 +12,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+
+import darkLogo from '../public/logo-dark.png';
+import lightLogo from '../public/logo-light.png';
 
 const Header: React.FC = () => {
   const { theme, setTheme } = useTheme()
@@ -31,8 +35,10 @@ const Header: React.FC = () => {
   return (
     <header className={`w-full p-4 fixed top-0 left-0 flex justify-between items-center px-4 py-2 ${theme === 'dark' ? 'bg-black' : 'bg-transparent'} text-${theme === 'dark' ? 'white' : 'black'}`}>
       <div className="flex items-center">
-        <Link href="/" className={`text-xl font-bold text-${theme === 'dark' ? 'white' : 'black'}`}>
-            Your Logo
+        <Link href="/">
+
+            <Image src={theme === 'dark' ? lightLogo : darkLogo} alt="Logo" width={125} height={125} />
+
         </Link>
       </div>
       <div className="flex h-5 items-center space-x-4 text-sm">
