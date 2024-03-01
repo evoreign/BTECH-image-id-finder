@@ -5,9 +5,9 @@ import Header from "@/components/navbar-header";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast"
-import { ToastClose } from '@/components/ui/toast';
+import { ReloadIcon } from "@radix-ui/react-icons"
 import Link from 'next/link'
-
+import { Skeleton } from "@/components/ui/skeleton"
 type ParamsType = {
     ImageId: number;
 };
@@ -20,38 +20,43 @@ export default function Doc( {params}: {params: ParamsType}) {
         let isMounted = true; // track whether component is mounted
 
         const fetchData = async () => {
+            setIsLoading(true); // set loading state to true before fetching data
             try {
                 const response = await axios.get(`http://127.0.0.1:4000/search/${params.ImageId}`);
-                if (isMounted) {
-                    const mappedData = response.data.map(item => ({
-                        title: item.model, // replace with actual property name from your API data
-                        description: `Tab: ${item.data.Tab}, Section: ${item.data.Section}`, // replace 'tab' and 'section' with actual property names from your API data
-                        link: `/${item.model}`, // replace 'model' with actual property name from your API data
-                        image: item.ImageUrl, // replace with actual property name from your API data
-                    }));
-                    setData(mappedData);
-                    setIsLoading(false);
-                    if (mappedData.length === 0) {
-                        toast({
-                            title: "No results found",
-                            description: `No results found for Image ID ${params.ImageId}.`,
-                        });
+                // setTimeout(() => { // artificial delay
+                    if (isMounted) {
+                        const mappedData = response.data.map(item => ({
+                            title: item.model, // replace with actual property name from your API data
+                            description: `Tab: ${item.data.Tab}, Section: ${item.data.Section}`, // replace 'tab' and 'section' with actual property names from your API data
+                            link: `/${item.model}`, // replace 'model' with actual property name from your API data
+                            image: item.ImageUrl, // replace with actual property name from your API data
+                        }));
+                        setData(mappedData);
+                        setIsLoading(false);
+                        if (mappedData.length === 0) {
+                            toast({
+                                title: "No results found",
+                                description: `No results found for Image ID ${params.ImageId}.`,
+                            });
+                        }
                     }
-                }
+                // }, 2000); // artificial delay of 2 seconds
             } catch (error) {
-                if (isMounted) {
-                    if (error.response && error.response.status === 400) {
-                        toast({
-                            variant: "destructive",
-                            title: "Uh oh! Bad request.",
-                            description: "Try entering a valid Image ID, it only accepts positive numbers.",
-                            action: <Link href='/'><ToastAction altText="Try again">Try again</ToastAction></Link>,
-                          })
-                    } else {
-                        console.error(error);
+                // setTimeout(() => { // artificial delay
+                    if (isMounted) {
+                        if (error.response && error.response.status === 400) {
+                            toast({
+                                variant: "destructive",
+                                title: "Uh oh! Bad request.",
+                                description: "Try entering a valid Image ID, it only accepts positive numbers.",
+                                action: <Link href='/'><ToastAction altText="Try again">Try again</ToastAction></Link>,
+                            })
+                        } else {
+                            console.error(error);
+                        }
+                        setIsLoading(false);
                     }
-                    setIsLoading(false);
-                }
+                // }, 2000); // artificial delay of 2 seconds
             }
         };
 
@@ -72,7 +77,11 @@ export default function Doc( {params}: {params: ParamsType}) {
                 {/* Display your data here. This is just an example. */}
                 <div className="pb-1  scroll-m-20 pt-2">
                 {isLoading ? (
-                    <p className="text-sm text-muted-foreground text-left">Loading...</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {Array(10).fill(0).map((_, index) => (
+                            <Skeleton key={index} />
+                        ))}
+                    </div>
                 ) : (
                     <>
                         <p className="text-sm text-muted-foreground text-left">{data.length} model(s) found for Image ID {params.ImageId}.</p>
