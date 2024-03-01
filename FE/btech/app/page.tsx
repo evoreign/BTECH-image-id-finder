@@ -1,24 +1,38 @@
 "use client"
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Header from "@/components/navbar-header";
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
 export default function Home() {
   const [imageId, setImageId] = useState('');
+  const [error, setError] = useState(null);
   const router = useRouter();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    router.push(`/search/${imageId}`);
+    try {
+      await router.push(`/search/${imageId}`);
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   const handleInputChange = (event) => {
     setImageId(event.target.value);
   };
+
+  useEffect(() => {
+    if (error) {
+      // Display the error message in some way
+      alert(error);
+      // Reset the error
+      setError(null);
+    }
+  }, [error]);
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen">

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Separator } from "@/components/ui/separator"
 import { UserButton } from "@clerk/nextjs";
@@ -12,10 +12,22 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-interface HeaderProps {}
-
-const Header: React.FC<HeaderProps> = () => {
+const Header: React.FC = () => {
   const { theme, setTheme } = useTheme()
+  const [error, setError] = useState(null);
+
+  const handleThemeChange = (newTheme) => {
+    try {
+      setTheme(newTheme);
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <header className={`w-full p-4 fixed top-0 left-0 flex justify-between items-center px-4 py-2 ${theme === 'dark' ? 'bg-black' : 'bg-transparent'} text-${theme === 'dark' ? 'white' : 'black'}`}>
       <div className="flex items-center">
@@ -33,10 +45,10 @@ const Header: React.FC<HeaderProps> = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => setTheme("light")}>
+            <DropdownMenuItem onClick={() => handleThemeChange("light")}>
               Light
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setTheme("dark")}>
+            <DropdownMenuItem onClick={() => handleThemeChange("dark")}>
               Dark
             </DropdownMenuItem>
           </DropdownMenuContent>

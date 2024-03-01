@@ -70,12 +70,12 @@ export default function Doc( {params}: {params: ParamsType}) {
                     Search results for Image ID {params.ImageId}
                 </h1>
                 {/* Display your data here. This is just an example. */}
-                <div className="px-4 sm:px-8 md:px-16 lg:px-32">
+                <div className="pb-1  scroll-m-20 pt-2">
                 {isLoading ? (
-                    <p>Loading...</p>
+                    <p className="text-sm text-muted-foreground text-left">Loading...</p>
                 ) : (
                     <>
-                        <p>{data.length} model(s) found for Image ID {params.ImageId}.</p>
+                        <p className="text-sm text-muted-foreground text-left">{data.length} model(s) found for Image ID {params.ImageId}.</p>
                         <HoverEffect items={data} />
                     </>
                 )}
