@@ -5,7 +5,6 @@ import Header from "@/components/navbar-header";
 import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast"
-import { ReloadIcon } from "@radix-ui/react-icons"
 import Link from 'next/link'
 import { Skeleton } from "@/components/ui/skeleton"
 type ParamsType = {
@@ -37,6 +36,7 @@ export default function Doc( {params}: {params: ParamsType}) {
                             toast({
                                 title: "No results found",
                                 description: `No results found for Image ID ${params.ImageId}.`,
+                                action: <Link href='/'><ToastAction altText="Try again">Try again</ToastAction></Link>,
                             });
                         }
                     }

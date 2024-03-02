@@ -14,42 +14,57 @@ router.get('/', (req, res) => {
   res.send('Search home page');
 });
 
+const getImageId = (req) => {
+  const imageId = String(req.params.ImageId);
+
+  if (!Number.isInteger(Number(imageId)) || Number(imageId) < 0) {
+    throw new Error('Invalid ImageId');
+  }
+
+  return imageId;
+};
+
+const getModelsFromDb = async (imageId) => {
+  console.log(`Searching for image ID: ${imageId}`);
+  console.log(`Current database: ${mongoose.connection.db.databaseName}`);
+  const models = await mongoose.connection.db.collection('image_collection_test_big')
+    .find({ [`data.${imageId}`]: { $exists: true } })
+    .toArray();
+  console.log(`Found ${models.length} models`);
+
+  return models;
+};
+
+const formatResults = (models, imageId) => {
+  const results = models.map(model => ({
+    model: model.model,
+    ImageUrl: model.ImageUrl,
+    data: model.data[imageId]
+  }));
+  console.log(`Results: ${JSON.stringify(results)}`);
+
+  return results;
+};
+
 router.get('/:ImageId', async (req, res) => { 
   try {
-    const imageId = String(req.params.ImageId);
+    const imageId = getImageId(req);
 
-    // Validate ImageId
-    if (!Number.isInteger(Number(imageId)) || Number(imageId) < 0) {
-      return res.status(400).json({ error: 'Invalid ImageId' });
-    }
-
-    // Check cache
     const cacheKey = `ImageId:${imageId}`;
     const cacheValue = cache.get(cacheKey);
     if (cacheValue) {
       return res.json(cacheValue);
     }
 
-    console.log(`Searching for image ID: ${imageId}`);
-    console.log(`Current database: ${mongoose.connection.db.databaseName}`);
-    const models = await mongoose.connection.db.collection('image_collection_test_big')
-      .find({ [`data.${imageId}`]: { $exists: true } })
-      .toArray();
-    console.log(`Found ${models.length} models`);
-    const results = models.map(model => ({
-      model: model.model,
-      ImageUrl: model.ImageUrl,
-      data: model.data[imageId]
-    }));
-    console.log(`Results: ${JSON.stringify(results)}`);
+    const models = await getModelsFromDb(imageId);
+    const results = formatResults(models, imageId);
 
-    // Store results in cache
     cache.put(cacheKey, results, 60000); // Cache for 1 minute
 
     res.json(results);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'An error occurred while processing your request.' });
+    res.status(500).json({ error: error.message });
   }
 }); 
 
