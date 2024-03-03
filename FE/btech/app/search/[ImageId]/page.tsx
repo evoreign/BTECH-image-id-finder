@@ -7,6 +7,9 @@ import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast"
 import Link from 'next/link'
 import { Skeleton } from "@/components/ui/skeleton"
+import {Breadcrumbs, BreadcrumbItem} from "@nextui-org/react";
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
+
 type ParamsType = {
     ImageId: number;
 };
@@ -84,7 +87,13 @@ export default function Doc( {params}: {params: ParamsType}) {
                     </div>
                 ) : (
                     <>
-                        <p className="text-sm text-muted-foreground text-left">{data.length} model(s) found for Image ID {params.ImageId}.</p>
+                        <div className="flex justify-between items-center">
+                            <Breadcrumbs>
+                                <BreadcrumbItem href="/"> <MagnifyingGlassIcon />Search</BreadcrumbItem>
+                                <BreadcrumbItem href={`/search/${params.ImageId}`}>{params.ImageId}</BreadcrumbItem>
+                            </Breadcrumbs>
+                            <p className="text-sm text-muted-foreground">{data.length} model(s) found for Image ID {params.ImageId}.</p>
+                        </div>
                         <HoverEffect items={data} />
                     </>
                 )}

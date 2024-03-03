@@ -4,6 +4,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/components/theme-provider";
+import {Providers} from "./providers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +27,9 @@ export default function RootLayout({
             defaultTheme="light"
             disableTransitionOnChange
           >
-            {children}
+            <Providers>
+              {children}
+            </Providers>
           </ThemeProvider>
           <Toaster />
         </body>
