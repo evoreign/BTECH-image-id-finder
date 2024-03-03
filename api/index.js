@@ -17,7 +17,7 @@ mongoose.connect(process.env.MONGODB_URI)
     }); 
 
     app.use('/search', searchRoutes);
-
+    
     app.listen(port, () => {
       console.log(`\nBTECH image id finder app listening on port ${port} and successfully connected to MongoDB!${process.env.MONGODB_URI}\n`)
     });

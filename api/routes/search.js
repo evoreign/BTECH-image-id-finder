@@ -45,7 +45,35 @@ const formatResults = (models, imageId) => {
 
   return results;
 };
+router.get('/all', async (req, res) => {
+  try {
+    const cacheKey = 'allModels';
+    const cacheValue = cache.get(cacheKey);
+    if (cacheValue) {
+      return res.json(cacheValue);
+    }
 
+    // Fetch all documents from the database
+    const models = await mongoose.connection.db.collection('image_collection_test_big')
+      .find({})
+      .toArray();
+
+    // Map over the documents and only return the model, ImageUrl fields and keys of data
+    const results = models.map(model => ({
+      model: model.model,
+      ImageUrl: model.ImageUrl,
+      data: Object.keys(model.data || {})
+    }));
+
+    cache.put(cacheKey, results, 600000); // Cache for 10 minute
+
+    // Send the results back to the client
+    res.json(results);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error.message });
+  }
+});
 router.get('/:ImageId', async (req, res) => { 
   try {
     const imageId = getImageId(req);
@@ -59,13 +87,14 @@ router.get('/:ImageId', async (req, res) => {
     const models = await getModelsFromDb(imageId);
     const results = formatResults(models, imageId);
 
-    cache.put(cacheKey, results, 60000); // Cache for 1 minute
+    cache.put(cacheKey, results, 600000); // Cache for 10 minute
 
     res.json(results);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: error.message });
+    res.status(400).json({ error: error.message });
   }
-}); 
+});
+
 
 module.exports = router;
