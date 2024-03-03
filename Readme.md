@@ -2,7 +2,7 @@
 # BTECH image ID finder
 
 A site to upload masterdoc, find which duplicated image id in which model
-
+(ignore the failed deployment)
 
 ## Installation/running locally
 
