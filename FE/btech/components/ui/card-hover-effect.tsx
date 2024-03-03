@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 import Image from 'next/image';
-
+import { Meteors } from "./meteors";
 export const HoverEffect = ({
   items,
   className,
@@ -66,12 +66,10 @@ export const Card = ({
   className,
   children,
   image,
-
 }: {
   className?: string;
   children: React.ReactNode;
   image?: string;
-
 }) => {
   return (
     <div
@@ -92,6 +90,9 @@ export const Card = ({
         )}
       </div>
       <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-65 transition-all duration-200 ease-in-out"></div> {/* Adjust the opacity of the overlay */}
+      <div className="absolute inset-0 transition-all duration-200 ease-in-out opacity-100 group-hover:opacity-0">
+        <Meteors number={2}/>
+      </div>
       <div className="relative z-50">
         <div className="p-4">{children}</div>
       </div>
