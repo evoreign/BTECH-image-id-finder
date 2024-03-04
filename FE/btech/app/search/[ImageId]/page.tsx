@@ -6,7 +6,7 @@ import { HoverEffect } from "@/components/ui/card-hover-effect";
 import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast"
 import Link from 'next/link'
-import { Skeleton } from "@/components/ui/skeleton"
+import { Skeleton } from "@/components/ui/skeleton-card"
 import {Breadcrumbs, BreadcrumbItem} from "@nextui-org/react";
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 

@@ -64,6 +64,12 @@ router.get('/all', async (req, res) => {
       .limit(limit)
       .toArray();
 
+    // Get the total number of models
+    const totalModels = await mongoose.connection.db.collection('image_collection_test_big').countDocuments();
+
+    // Calculate the total number of pages
+    const totalPages = Math.ceil(totalModels / limit);
+
     // Map over the documents and only return the model, ImageUrl fields and keys of data
     const results = models.map(model => ({
       model: model.model,
@@ -71,10 +77,12 @@ router.get('/all', async (req, res) => {
       data: Object.keys(model.data || {})
     }));
 
-    cache.put(cacheKey, results, 600000); // Cache for 10 minute
+    const response = { results, totalPages };
+
+    cache.put(cacheKey, response, 600000); // Cache for 10 minute
 
     // Send the results back to the client
-    res.json(results);
+    res.json(response);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: error.message });
