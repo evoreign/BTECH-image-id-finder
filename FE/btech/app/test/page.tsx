@@ -13,7 +13,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination"
 import { Skeleton, SkeletonRow } from '@/components/ui/skeleton';
-
+import { EyeOpenIcon } from '@radix-ui/react-icons';
 const columns = [
   {
     key: "model",
@@ -25,8 +25,13 @@ const columns = [
   },
   {
     key: "data",
-    label: "DATA",
+    label: "AMOUNT OF IMAGES",
   },
+  {
+    key: "details",
+    label: "DETAILS",
+  },
+
 ];
 
 const limit = 5; // Set the limit of items per page
@@ -59,7 +64,7 @@ export default function Test() {
         <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl ">
           Test things here
         </h1>
-        <Meteors number={20} />
+        {/* <Meteors /> */}
         {loading ? (
           <div className="space-y-4">
             <SkeletonRow />
@@ -82,7 +87,10 @@ export default function Test() {
                       <Image src={item.ImageUrl} alt={item.model} width={40} height={40} />
                     </div>
                   </TableCell>
-                  <TableCell>{item.data.join(', ')}</TableCell>
+                  <TableCell>{item.data.length}</TableCell>
+                  <TableCell>
+                    <EyeOpenIcon className="cursor-pointer" onClick={() => console.log('Clicked!')} />
+                  </TableCell>
                 </TableRow>
               )}
             </TableBody>
