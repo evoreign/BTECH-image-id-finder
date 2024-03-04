@@ -34,7 +34,7 @@ const Header: React.FC = () => {
   }
 
   return (
-    <header className={`w-full p-2 sm:p-4 fixed top-0 left-0 flex justify-between items-center px-2 sm:px-4 py-1 sm:py-2 bg-transparent text-${theme === 'dark' ? 'white' : 'black'} z-50`}>
+    <header className={`w-full p-2 sm:p-4 fixed top-0 left-0 flex justify-between items-center px-2 sm:px-4 py-1 sm:py-2 bg-transparent z-50 ${theme === 'dark' ? 'text-white' : 'text-black'}`}>
       <div className="flex items-center">
         <Link href="/">
             <Image src={theme === 'dark' ? lightLogo : darkLogo} alt="Logo" width={100} height={100} className="sm:w-125 sm:h-125" />
@@ -58,11 +58,11 @@ const Header: React.FC = () => {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Link href="/" className={`text-${theme === 'dark' ? 'white' : 'black'} hover:text-blue-500`}>
+        <Link href="/" className={`${theme === 'dark' ? 'text-white' : 'text-black'} hover:text-blue-500`}>
             Search
         </Link>
         <Separator orientation="vertical" />
-        <Link href="/doc-upload" className={`text-${theme === 'dark' ? 'white' : 'black'} hover:text-blue-500`}>
+        <Link href="/doc-upload" className={`${theme === 'dark' ? 'text-white' : 'text-black'} hover:text-blue-500`}>
             Docs
         </Link>
         <UserButton />
