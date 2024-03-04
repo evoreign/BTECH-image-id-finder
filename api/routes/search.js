@@ -47,7 +47,11 @@ const formatResults = (models, imageId) => {
 };
 router.get('/all', async (req, res) => {
   try {
-    const cacheKey = 'allModels';
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const cacheKey = `allModels-page:${page}-limit:${limit}`;
     const cacheValue = cache.get(cacheKey);
     if (cacheValue) {
       return res.json(cacheValue);
@@ -56,6 +60,8 @@ router.get('/all', async (req, res) => {
     // Fetch all documents from the database
     const models = await mongoose.connection.db.collection('image_collection_test_big')
       .find({})
+      .skip(skip)
+      .limit(limit)
       .toArray();
 
     // Map over the documents and only return the model, ImageUrl fields and keys of data
