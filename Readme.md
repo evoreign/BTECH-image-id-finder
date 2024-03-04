@@ -23,7 +23,7 @@ Run the BE
     
 ## Tech Stack
 
-**FE:** next js, Shad cn, TailwindCSS
+**FE:** next js, Shad cn, TailwindCSS, next UI, aceternity UI
 
 **BE:** express js, Django
 
