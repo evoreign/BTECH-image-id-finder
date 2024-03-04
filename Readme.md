@@ -46,7 +46,7 @@ This project is used by the following companies:
 
 - Multiple file upload support
 
-- Frontend stuff (recode to ts) recode cause.... ts is better i guess
+- Table of currect model with search, sort, modal etc
 
 
 ## Authors
